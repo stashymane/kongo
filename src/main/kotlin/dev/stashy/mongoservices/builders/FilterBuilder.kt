@@ -11,8 +11,8 @@ class FilterBuilder<T> {
     infix fun <V> KProperty1<T, V>.greaterThan(value: V & Any): Bson = Filters.gt(name, value)
     infix fun <V> KProperty1<T, V>.lessThan(value: V & Any): Bson = Filters.lt(name, value)
 
-    infix fun <V> KProperty1<T, V>.greaterThanOrEquals(value: V & Any): Bson = Filters.gte(name, value)
-    infix fun <V> KProperty1<T, V>.lessThanOrEquals(value: V & Any): Bson = Filters.lte(name, value)
+    infix fun <V> KProperty1<T, V>.greaterOrEquals(value: V & Any): Bson = Filters.gte(name, value)
+    infix fun <V> KProperty1<T, V>.lessOrEquals(value: V & Any): Bson = Filters.lte(name, value)
 
     infix fun <V> KProperty1<T, V>.containedIn(value: V): Bson = Filters.`in`(name, value)
     infix fun <V> KProperty1<T, V>.notContainedIn(value: V): Bson = Filters.nin(name, value)
