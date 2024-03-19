@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlinx.serialization)
+    id("maven-publish")
 }
 
 group = "dev.stashy"
@@ -22,4 +23,24 @@ tasks.test {
 
 kotlin {
     jvmToolchain(21)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        maven("https://repo.stashy.dev/releases") {
+            credentials {
+                val repoUser: String? by project
+                val repoToken: String? by project
+
+                username = repoUser ?: ""
+                password = repoToken ?: ""
+            }
+        }
+    }
 }
