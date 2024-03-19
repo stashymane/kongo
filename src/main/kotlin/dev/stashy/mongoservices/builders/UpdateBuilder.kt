@@ -42,4 +42,7 @@ class UpdateBuilder<T> {
     fun <V> bitwiseXor(field: KProperty1<T, V>, value: Long): Bson = Updates.bitwiseXor(field.name, value)
 
     infix fun Bson.and(value: Bson): Bson = Updates.combine(this, value)
+
+    fun combine(vararg updates: Bson): Bson = Updates.combine(*updates)
+    fun combine(updates: List<Bson>): Bson = Updates.combine(updates)
 }
