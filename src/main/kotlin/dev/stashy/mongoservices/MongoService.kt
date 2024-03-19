@@ -2,6 +2,7 @@ package dev.stashy.mongoservices
 
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import dev.stashy.mongoservices.builders.FilterBuilder
+import dev.stashy.mongoservices.builders.IndexBuilder
 import dev.stashy.mongoservices.builders.UpdateBuilder
 import org.bson.conversions.Bson
 import kotlin.reflect.KClass
@@ -38,4 +39,5 @@ abstract class MongoService<T : Any>(
 
     inline fun filter(fn: FilterBuilder<T>.() -> Bson): Bson = fn(FilterBuilder())
     inline fun update(fn: UpdateBuilder<T>.() -> Bson): Bson = fn(UpdateBuilder())
+    inline fun index(fn: IndexBuilder<T>.() -> Bson): Bson = fn(IndexBuilder())
 }
