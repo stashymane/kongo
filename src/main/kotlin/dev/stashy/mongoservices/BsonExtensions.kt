@@ -11,6 +11,6 @@ fun BsonValue.toObjectIdStringOrNull(): String? = if (isObjectId) asObjectId().v
 /**
  * Convert an ObjectId value to a string.
  * @return String representation of the ObjectId value.
- * @throws BsonInvalidOperationException if this BsonValue is not an ObjectId.
+ * @throws org.bson.BsonInvalidOperationException if this BsonValue is not an ObjectId.
  */
 fun BsonValue.toObjectIdString(): String? = asObjectId().value.toHexString()
