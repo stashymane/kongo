@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.stashy"
-version = "0.2.1"
+version = "0.3.0"
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
