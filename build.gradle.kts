@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.mongodb.bson.kotlinx)
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation(kotlin("reflect"))
 }
 
 tasks.test {

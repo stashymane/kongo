@@ -10,20 +10,20 @@ import java.util.regex.Pattern
 import kotlin.reflect.KProperty1
 
 class FilterBuilder<T> {
-    infix fun <V> KProperty1<T, V>.equals(value: V): Bson = Filters.eq(name, value)
-    infix fun <V> KProperty1<T, V>.notEquals(value: V): Bson = Filters.ne(name, value)
+    infix fun <V> KProperty1<T, V>.equals(value: V): Bson = Filters.eq(serialName(), value)
+    infix fun <V> KProperty1<T, V>.notEquals(value: V): Bson = Filters.ne(serialName(), value)
 
-    infix fun <V> KProperty1<T, V>.greaterThan(value: V & Any): Bson = Filters.gt(name, value)
-    infix fun <V> KProperty1<T, V>.lessThan(value: V & Any): Bson = Filters.lt(name, value)
+    infix fun <V> KProperty1<T, V>.greaterThan(value: V & Any): Bson = Filters.gt(serialName(), value)
+    infix fun <V> KProperty1<T, V>.lessThan(value: V & Any): Bson = Filters.lt(serialName(), value)
 
-    infix fun <V> KProperty1<T, V>.greaterOrEquals(value: V & Any): Bson = Filters.gte(name, value)
-    infix fun <V> KProperty1<T, V>.lessOrEquals(value: V & Any): Bson = Filters.lte(name, value)
+    infix fun <V> KProperty1<T, V>.greaterOrEquals(value: V & Any): Bson = Filters.gte(serialName(), value)
+    infix fun <V> KProperty1<T, V>.lessOrEquals(value: V & Any): Bson = Filters.lte(serialName(), value)
 
-    infix fun <V> KProperty1<T, V>.containedIn(value: Iterable<V>): Bson = Filters.`in`(name, value)
-    fun <V> KProperty1<T, V>.containedIn(vararg value: V): Bson = Filters.`in`(name, *value)
+    infix fun <V> KProperty1<T, V>.containedIn(value: Iterable<V>): Bson = Filters.`in`(serialName(), value)
+    fun <V> KProperty1<T, V>.containedIn(vararg value: V): Bson = Filters.`in`(serialName(), *value)
 
-    infix fun <V> KProperty1<T, V>.notContainedIn(value: Iterable<V>): Bson = Filters.nin(name, value)
-    fun <V> KProperty1<T, V>.notContainedIn(vararg value: V): Bson = Filters.nin(name, *value)
+    infix fun <V> KProperty1<T, V>.notContainedIn(value: Iterable<V>): Bson = Filters.nin(serialName(), value)
+    fun <V> KProperty1<T, V>.notContainedIn(vararg value: V): Bson = Filters.nin(serialName(), *value)
 
     infix fun Bson.and(value: Bson): Bson = Filters.and(this, value)
     fun Bson.and(vararg value: Bson): Bson = Filters.and(this, *value)
@@ -39,18 +39,20 @@ class FilterBuilder<T> {
     fun Bson.nor(vararg value: Bson): Bson = Filters.nor(this, *value)
     infix fun Bson.nor(value: Iterable<Bson>): Bson = Filters.nor(value + this)
 
-    fun <V> KProperty1<T, V>.exists(): Bson = Filters.exists(name, true)
-    fun <V> KProperty1<T, V>.doesNotExist(): Bson = Filters.exists(name, false)
+    fun <V> KProperty1<T, V>.exists(): Bson = Filters.exists(serialName(), true)
+    fun <V> KProperty1<T, V>.doesNotExist(): Bson = Filters.exists(serialName(), false)
 
-    infix fun <V> KProperty1<T, V>.typed(type: BsonType): Bson = Filters.type(name, type)
-    infix fun <V> KProperty1<T, V>.typed(type: String): Bson = Filters.type(name, type)
+    infix fun <V> KProperty1<T, V>.typed(type: BsonType): Bson = Filters.type(serialName(), type)
+    infix fun <V> KProperty1<T, V>.typed(type: String): Bson = Filters.type(serialName(), type)
 
-    fun <V> KProperty1<T, V>.mod(divisor: Long, remainder: Long): Bson = Filters.mod(name, divisor, remainder)
+    fun <V> KProperty1<T, V>.mod(divisor: Long, remainder: Long): Bson = Filters.mod(serialName(), divisor, remainder)
 
-    infix fun <V> KProperty1<T, V>.matches(pattern: String): Bson = Filters.regex(name, pattern)
-    fun <V> KProperty1<T, V>.matches(pattern: String, options: String): Bson = Filters.regex(name, pattern, options)
-    fun <V> KProperty1<T, V>.matches(pattern: Pattern): Bson = Filters.regex(name, pattern)
-    fun <V> KProperty1<T, V>.matches(pattern: Regex): Bson = Filters.regex(name, pattern.toPattern())
+    infix fun <V> KProperty1<T, V>.matches(pattern: String): Bson = Filters.regex(serialName(), pattern)
+    fun <V> KProperty1<T, V>.matches(pattern: String, options: String): Bson =
+        Filters.regex(serialName(), pattern, options)
+
+    fun <V> KProperty1<T, V>.matches(pattern: Pattern): Bson = Filters.regex(serialName(), pattern)
+    fun <V> KProperty1<T, V>.matches(pattern: Regex): Bson = Filters.regex(serialName(), pattern.toPattern())
 
     fun text(search: String, options: TextSearchOptions = TextSearchOptions()): Bson = Filters.text(search, options)
 
@@ -58,35 +60,37 @@ class FilterBuilder<T> {
 
     fun <V> expr(expression: V & Any): Bson = Filters.expr(expression)
 
-    infix fun <V> KProperty1<T, V>.all(value: Iterable<V>): Bson = Filters.all(name, value)
-    fun <V> KProperty1<T, V>.all(vararg value: V): Bson = Filters.all(name, value)
+    infix fun <V> KProperty1<T, V>.all(value: Iterable<V>): Bson = Filters.all(serialName(), value)
+    fun <V> KProperty1<T, V>.all(vararg value: V): Bson = Filters.all(serialName(), value)
 
-    infix fun <V> KProperty1<T, V>.elemMatch(filter: Bson): Bson = Filters.elemMatch(name, filter)
+    infix fun <V> KProperty1<T, V>.elemMatch(filter: Bson): Bson = Filters.elemMatch(serialName(), filter)
 
-    infix fun <V> KProperty1<T, V>.size(size: Int): Bson = Filters.size(name, size)
+    infix fun <V> KProperty1<T, V>.size(size: Int): Bson = Filters.size(serialName(), size)
 
-    infix fun <V> KProperty1<T, V>.bitsAllClear(bitmask: Long): Bson = Filters.bitsAllClear(name, bitmask)
-    infix fun <V> KProperty1<T, V>.bitsAllSet(bitmask: Long): Bson = Filters.bitsAllSet(name, bitmask)
-    infix fun <V> KProperty1<T, V>.bitsAnyClear(bitmask: Long): Bson = Filters.bitsAnyClear(name, bitmask)
-    infix fun <V> KProperty1<T, V>.bitsAnySet(bitmask: Long): Bson = Filters.bitsAnySet(name, bitmask)
+    infix fun <V> KProperty1<T, V>.bitsAllClear(bitmask: Long): Bson = Filters.bitsAllClear(serialName(), bitmask)
+    infix fun <V> KProperty1<T, V>.bitsAllSet(bitmask: Long): Bson = Filters.bitsAllSet(serialName(), bitmask)
+    infix fun <V> KProperty1<T, V>.bitsAnyClear(bitmask: Long): Bson = Filters.bitsAnyClear(serialName(), bitmask)
+    infix fun <V> KProperty1<T, V>.bitsAnySet(bitmask: Long): Bson = Filters.bitsAnySet(serialName(), bitmask)
 
-    infix fun <V> KProperty1<T, V>.geoWithin(geometry: Geometry): Bson = Filters.geoWithin(name, geometry)
-    infix fun <V> KProperty1<T, V>.geoWithin(geometry: Bson): Bson = Filters.geoWithin(name, geometry)
+    infix fun <V> KProperty1<T, V>.geoWithin(geometry: Geometry): Bson = Filters.geoWithin(serialName(), geometry)
+    infix fun <V> KProperty1<T, V>.geoWithin(geometry: Bson): Bson = Filters.geoWithin(serialName(), geometry)
 
     fun <V> KProperty1<T, V>.geoWithinBox(
         lowerLeftX: Double, lowerLeftY: Double, upperRightX: Double, upperRightY: Double
-    ): Bson = Filters.geoWithinBox(name, lowerLeftX, lowerLeftY, upperRightX, upperRightY)
+    ): Bson = Filters.geoWithinBox(serialName(), lowerLeftX, lowerLeftY, upperRightX, upperRightY)
 
-    fun <V> KProperty1<T, V>.geoWithinPolygon(points: List<List<Double>>): Bson = Filters.geoWithinPolygon(name, points)
+    fun <V> KProperty1<T, V>.geoWithinPolygon(points: List<List<Double>>): Bson =
+        Filters.geoWithinPolygon(serialName(), points)
 
     fun <V> KProperty1<T, V>.geoWithinCenter(x: Double, y: Double, radius: Double, spherical: Boolean): Bson =
         when (spherical) {
-            false -> Filters.geoWithinCenter(name, x, y, radius)
-            true -> Filters.geoWithinCenterSphere(name, x, y, radius)
+            false -> Filters.geoWithinCenter(serialName(), x, y, radius)
+            true -> Filters.geoWithinCenterSphere(serialName(), x, y, radius)
         }
 
-    infix fun <V> KProperty1<T, V>.geoIntersects(geometry: Bson): Bson = Filters.geoIntersects(name, geometry)
-    infix fun <V> KProperty1<T, V>.geoIntersects(geometry: Geometry): Bson = Filters.geoIntersects(name, geometry)
+    infix fun <V> KProperty1<T, V>.geoIntersects(geometry: Bson): Bson = Filters.geoIntersects(serialName(), geometry)
+    infix fun <V> KProperty1<T, V>.geoIntersects(geometry: Geometry): Bson =
+        Filters.geoIntersects(serialName(), geometry)
 
     fun <V> KProperty1<T, V>.near(
         geometry: Point,
@@ -95,8 +99,8 @@ class FilterBuilder<T> {
         minDistance: Double? = null
     ): Bson =
         when (spherical) {
-            false -> Filters.near(name, geometry, maxDistance, minDistance)
-            true -> Filters.nearSphere(name, geometry, maxDistance, minDistance)
+            false -> Filters.near(serialName(), geometry, maxDistance, minDistance)
+            true -> Filters.nearSphere(serialName(), geometry, maxDistance, minDistance)
         }
 
     fun <V> KProperty1<T, V>.near(
@@ -106,15 +110,15 @@ class FilterBuilder<T> {
         minDistance: Double? = null,
     ): Bson =
         when (spherical) {
-            false -> Filters.near(name, geometry, maxDistance, minDistance)
-            true -> Filters.nearSphere(name, geometry, maxDistance, minDistance)
+            false -> Filters.near(serialName(), geometry, maxDistance, minDistance)
+            true -> Filters.nearSphere(serialName(), geometry, maxDistance, minDistance)
         }
 
     fun <V> KProperty1<T, V>.near(
         x: Double, y: Double, spherical: Boolean, maxDistance: Double? = null, minDistance: Double? = null
     ): Bson = when (spherical) {
-        false -> Filters.near(name, x, y, maxDistance, minDistance)
-        true -> Filters.nearSphere(name, x, y, maxDistance, minDistance)
+        false -> Filters.near(serialName(), x, y, maxDistance, minDistance)
+        true -> Filters.nearSphere(serialName(), x, y, maxDistance, minDistance)
     }
 
     fun jsonSchema(schema: Bson): Bson = Filters.jsonSchema(schema)
