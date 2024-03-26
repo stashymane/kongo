@@ -25,16 +25,22 @@ class FilterBuilder<T> {
     infix fun <V> KProperty1<T, V>.notContainedIn(value: Iterable<V>): Bson = Filters.nin(serialName(), value)
     fun <V> KProperty1<T, V>.notContainedIn(vararg value: V): Bson = Filters.nin(serialName(), *value)
 
+    fun and(vararg values: Bson): Bson = Filters.and(*values)
+    fun and(values: List<Bson>): Bson = Filters.and(values)
     infix fun Bson.and(value: Bson): Bson = Filters.and(this, value)
     fun Bson.and(vararg value: Bson): Bson = Filters.and(this, *value)
     infix fun Bson.and(value: Iterable<Bson>): Bson = Filters.and(value + this)
 
+    fun or(vararg values: Bson): Bson = Filters.or(*values)
+    fun or(values: List<Bson>): Bson = Filters.or(values)
     infix fun Bson.or(value: Bson): Bson = Filters.or(this, value)
     fun Bson.or(vararg value: Bson): Bson = Filters.or(this, *value)
     infix fun Bson.or(value: Iterable<Bson>): Bson = Filters.or(value + this)
 
     fun not(value: Bson): Bson = Filters.not(value)
 
+    fun nor(vararg values: Bson): Bson = Filters.nor(*values)
+    fun nor(values: List<Bson>): Bson = Filters.nor(values)
     infix fun Bson.nor(value: Bson): Bson = Filters.nor(this, value)
     fun Bson.nor(vararg value: Bson): Bson = Filters.nor(this, *value)
     infix fun Bson.nor(value: Iterable<Bson>): Bson = Filters.nor(value + this)
