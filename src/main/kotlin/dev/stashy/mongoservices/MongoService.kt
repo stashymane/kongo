@@ -1,11 +1,6 @@
 package dev.stashy.mongoservices
 
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
-import dev.stashy.mongoservices.builders.FilterBuilder
-import dev.stashy.mongoservices.builders.IndexBuilder
-import dev.stashy.mongoservices.builders.SortBuilder
-import dev.stashy.mongoservices.builders.UpdateBuilder
-import org.bson.conversions.Bson
 import kotlin.reflect.KClass
 
 /**
@@ -25,21 +20,16 @@ abstract class MongoService<T : Any>(
     private val name: String,
     private val database: MongoDatabase,
     type: KClass<T>
-) {
+) : MongoServiceBase<T> {
     /**
      * Creates the collection if it does not yet exist, and performs other database setup based on your implementation.
      */
-    open suspend fun init() {
+    override suspend fun init() {
         database.createCollection(name)
     }
 
     /**
      * The MongoDB collection associated with this service.
      */
-    val collection = database.getCollection(name, type.java)
-
-    inline fun filter(fn: FilterBuilder<T>.() -> Bson): Bson = fn(FilterBuilder())
-    inline fun update(fn: UpdateBuilder<T>.() -> Bson): Bson = fn(UpdateBuilder())
-    inline fun index(fn: IndexBuilder<T>.() -> Bson): Bson = fn(IndexBuilder())
-    inline fun sort(fn: SortBuilder<T>.() -> Bson): Bson = fn(SortBuilder())
+    override val collection = database.getCollection(name, type.java)
 }
