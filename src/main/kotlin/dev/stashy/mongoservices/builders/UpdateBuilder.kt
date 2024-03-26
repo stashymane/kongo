@@ -7,6 +7,9 @@ import kotlin.reflect.KProperty1
 
 class UpdateBuilder<T> {
     fun <V> set(value: Pair<KProperty1<T, V>, V>): Bson = Updates.set(value.first.serialName(), value.second)
+    fun <V> T.setFields(fields: List<KProperty1<T, V>>): Bson =
+        combine(fields.map { field -> set(fieldToValue(field)) })
+
     fun <V> unset(field: KProperty1<T, V>): Bson = Updates.unset(field.serialName())
     fun setOnInsert(value: Bson): Bson = Updates.setOnInsert(value)
     fun <V> rename(value: Pair<KProperty1<T, V>, String>): Bson = Updates.rename(value.first.serialName(), value.second)

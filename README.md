@@ -24,6 +24,8 @@ dependencies {
 * Service class for better ergonomics
 * Generic ObjectId serializer for use outside of MongoDB
 
+
+
 ## Examples
 
 ### Filter builder
