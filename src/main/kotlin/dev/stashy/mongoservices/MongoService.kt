@@ -1,6 +1,8 @@
 package dev.stashy.mongoservices
 
+import com.mongodb.MongoClientSettings
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
+import org.bson.codecs.configuration.CodecRegistries
 import kotlin.reflect.KClass
 
 /**
@@ -30,6 +32,14 @@ abstract class MongoService<T : Any>(
 
     /**
      * The MongoDB collection associated with this service.
+     *
+     * This installs the [EntityId] codec registry by default.
+     * When overriding the codec registry, either extend the collection's current one, or just include the [EntityIdBsonSerializer.entityIdCodec].
      */
-    override val collection = database.getCollection(name, type.java)
+    override val collection = database.getCollection(name, type.java).withCodecRegistry(
+        CodecRegistries.fromRegistries(
+            CodecRegistries.fromCodecs(EntityIdBsonSerializer.entityIdCodec),
+            MongoClientSettings.getDefaultCodecRegistry()
+        )
+    )
 }

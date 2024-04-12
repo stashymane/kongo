@@ -8,16 +8,10 @@ group = "dev.stashy.mongoservices"
 version = "0.3.2"
 
 dependencies {
-    api(projects.model)
-
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.coroutines)
-
-    implementation(libs.mongodb.coroutine)
     implementation(libs.mongodb.bson.kotlinx)
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    implementation(kotlin("reflect"))
 }
 
 tasks.test {
