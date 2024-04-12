@@ -29,7 +29,7 @@ object EntityIdBsonSerializer : KSerializer<EntityId> {
 
     override fun deserialize(decoder: Decoder): EntityId {
         return when (decoder) {
-            is BsonDecoder -> EntityId(decoder.decodeObjectId().toHexString())
+            is BsonDecoder -> decoder.decodeObjectId().asEntityId()
             else -> EntityId(decoder.decodeString())
         }
     }
@@ -40,3 +40,4 @@ object EntityIdBsonSerializer : KSerializer<EntityId> {
 
 fun ObjectId.asEntityId(): EntityId = EntityId(this.toHexString())
 fun BsonObjectId.asEntityId(): EntityId = EntityId(this.value.toHexString())
+fun EntityId.asObjectId(): ObjectId = ObjectId(id)
