@@ -4,7 +4,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "dev.stashy"
+group = "dev.stashy.mongoservices"
 version = "0.3.2"
 
 dependencies {
