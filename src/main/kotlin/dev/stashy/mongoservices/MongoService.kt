@@ -1,45 +1,67 @@
 package dev.stashy.mongoservices
 
-import com.mongodb.MongoClientSettings
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.SerializersModuleBuilder
+import kotlinx.serialization.modules.contextual
+import org.bson.codecs.Codec
 import org.bson.codecs.configuration.CodecRegistries
+import org.bson.codecs.kotlinx.KotlinSerializerCodec
 import kotlin.reflect.KClass
+import kotlin.reflect.jvm.jvmName
 
 /**
- * Class for defining a MongoDB-based storage service, with various utility functions to ease in writing queries.
+ * Class for defining a MongoDB-based storage service, with various utility functions to ease writing queries.
  *
  * Example:
  * ```
- * data class Foo(@SerialName("_id") @Contextual val id: ObjectId, val bar: String)
+ * data class Foo(@SerialName("_id") @Contextual val id: DocumentId, val bar: String)
  *
  * class DataService(db: MongoDatabase): MongoService<Foo>("foo", db, Foo::class) {
- *     fun getById(id: ObjectId): Foo? = collection.find(...)
+ *     fun getById(id: DocumentId): Foo? = collection.find(...)
  *     ...
  * }
  * ```
+ *
+ * @see MongoServiceBase
  */
 abstract class MongoService<T : Any>(
-    private val name: String,
-    private val database: MongoDatabase,
-    type: KClass<T>
+    val collectionName: String,
+    val database: MongoDatabase,
+    val type: KClass<T>
 ) : MongoServiceBase<T> {
     /**
      * Creates the collection if it does not yet exist, and performs other database setup based on your implementation.
      */
     override suspend fun init() {
-        database.createCollection(name)
+        database.createCollection(collectionName)
     }
 
     /**
      * The MongoDB collection associated with this service.
      *
-     * This installs the [EntityId] codec registry by default.
-     * When overriding the codec registry, either extend the collection's current one, or just include the [EntityIdBsonSerializer.entityIdCodec].
+     * Automatically adds a modified Kotlin serialization codec with contextual or polymorphic serializers defined in [serializersModules].
+     * When overriding the codec registry, either extend the collection's current one
+     * or include [DocumentIdBsonSerializer] as a contextual serializer for your type.
      */
-    override val collection = database.getCollection(name, type.java).withCodecRegistry(
-        CodecRegistries.fromRegistries(
-            CodecRegistries.fromCodecs(EntityIdBsonSerializer.entityIdCodec),
-            MongoClientSettings.getDefaultCodecRegistry()
+    override val collection = run {
+        val c = database.getCollection(collectionName, type.java)
+        c.withCodecRegistry(
+            CodecRegistries.fromRegistries(
+                CodecRegistries.fromCodecs(createSerializerCodec()),
+                c.codecRegistry
+            )
         )
-    )
+    }
+
+    /**
+     * Registers serializers transforming with Kotlin serialization for your type [T].
+     * By default, only registers the contextual [DocumentIdBsonSerializer].
+     * Extend this function to add additional contextual/polymorphic serializers.
+     */
+    open fun SerializersModuleBuilder.serializersModules(): Unit = contextual(DocumentIdBsonSerializer)
+
+    fun createSerializerCodec(): Codec<T> =
+        KotlinSerializerCodec.create(type, SerializersModule { serializersModules() })
+            ?: throw NullPointerException("Failed to create Kotlin serialization codec for type ${type.jvmName}")
 }

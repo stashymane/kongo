@@ -12,7 +12,10 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.stashy:mongodb-services:<version>")
+    implementation("dev.stashy.mongoservices:mongodb-services:<version>")
+
+    //model has no dependency on MongoDB libs and is included in the library above
+    implementation("dev.stashy.mongoservices:model:<version>")
 }
 ```
 
@@ -22,16 +25,15 @@ dependencies {
 * Automatic SerialName fetching with operation builder pattern (via Kotlin reflection, not possible to do this otherwise
   currently)
 * Service class for better ergonomics
-* Generic ObjectId serializer for use outside of MongoDB
-
-
+* ObjectId replacement (`DocumentId`) for sharing your data model across projects without including the MongoDB driver
+  itself.
 
 ## Examples
 
 ### Filter builder
 
 ```kotlin
-data class Foo(@SerialName("_id") val id: @Contextual ObjectId, val bar: String)
+data class Foo(@SerialName("_id") val id: @Contextual DocumentId, val bar: String)
 
 filter {
     (Foo::bar equals "bar") or (Foo::bar equals "baz")
@@ -59,18 +61,6 @@ class DataService(db: MongoDatabase) : MongoService<Foo>("foo", db, Foo::class) 
 
     fun search(query: String): Foo? = collection.find { text(query) }.singleOrNull()
 }
-```
-
-### Serializing ObjectIds with the JSON serializer
-
-```kotlin
-val json = Json {
-    serializersModule += SerializersModule { contextual(ObjectIdSerializer) }
-}
-val foo = Foo(ObjectId(), "baz")
-val jsonString = json.encodeToString(foo)
-println(jsonString)
-// output: {"_id":"65fdb513388c9f5a22d7672b","bar":"baz"}
 ```
 
 ## TODO
