@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.stashy.mongoservices"
-version = "0.3.2"
+version = rootProject.version
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
