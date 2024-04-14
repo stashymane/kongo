@@ -1,11 +1,13 @@
 package dev.stashy.mongoservices
 
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
+import dev.stashy.mongoservices.model.DocumentId
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.SerializersModuleBuilder
 import kotlinx.serialization.modules.contextual
-import org.bson.codecs.Codec
 import org.bson.codecs.configuration.CodecRegistries
+import org.bson.codecs.configuration.CodecRegistry
+import org.bson.codecs.kotlinx.BsonConfiguration
 import org.bson.codecs.kotlinx.KotlinSerializerCodec
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.jvmName
@@ -46,12 +48,7 @@ abstract class MongoService<T : Any>(
      */
     override val collection = run {
         val c = database.getCollection(collectionName, type.java)
-        c.withCodecRegistry(
-            CodecRegistries.fromRegistries(
-                CodecRegistries.fromCodecs(createSerializerCodec()),
-                c.codecRegistry
-            )
-        )
+        c.withCodecRegistry(CodecRegistries.fromRegistries(createSerializerCodecs(), c.codecRegistry))
     }
 
     /**
@@ -61,7 +58,14 @@ abstract class MongoService<T : Any>(
      */
     open fun SerializersModuleBuilder.serializersModules(): Unit = contextual(DocumentIdBsonSerializer)
 
-    fun createSerializerCodec(): Codec<T> =
+    fun createSerializerCodecs(): CodecRegistry = CodecRegistries.fromCodecs(
         KotlinSerializerCodec.create(type, SerializersModule { serializersModules() })
-            ?: throw NullPointerException("Failed to create Kotlin serialization codec for type ${type.jvmName}")
+            ?: throw NullPointerException("Failed to create Kotlin serialization codec for type ${type.jvmName}"),
+        KotlinSerializerCodec.create(
+            DocumentId::class,
+            serializer = DocumentIdBsonSerializer,
+            SerializersModule { contextual(DocumentIdBsonSerializer) },
+            bsonConfiguration = BsonConfiguration()
+        )
+    )
 }
