@@ -6,17 +6,3 @@ plugins {
 
 group = "dev.stashy.mongoservices"
 version = "0.4.1"
-
-publishing {
-    repositories {
-        maven("https://repo.stashy.dev/releases") {
-            credentials {
-                val repoUser: String? by project
-                val repoToken: String? by project
-
-                username = repoUser ?: ""
-                password = repoToken ?: ""
-            }
-        }
-    }
-}
