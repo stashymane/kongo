@@ -11,11 +11,12 @@ kotlin {
     jvm {
         jvmToolchain(11)
     }
+    mingwX64()
+    linuxX64()
+    linuxArm64()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    linuxX64()
-    mingwX64()
 
     sourceSets {
         commonMain.dependencies {
