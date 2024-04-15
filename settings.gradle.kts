@@ -13,4 +13,4 @@ dependencyResolutionManagement {
 
 
 rootProject.name = "mongodb-services"
-include(":model")
+include(":model", ":services")

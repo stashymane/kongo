@@ -11,16 +11,18 @@ kotlin {
     jvm {
         jvmToolchain(17)
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    linuxX64()
-    mingwX64()
 
     sourceSets {
         commonMain.dependencies {
+            api(projects.model)
+
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.coroutines)
+
+            implementation(libs.mongodb.coroutine)
             implementation(libs.mongodb.bson.kotlinx)
+
+            implementation(kotlin("reflect"))
         }
 
         commonTest.dependencies {

@@ -1,45 +1,13 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.kotlinx.serialization) apply false
     id("maven-publish")
 }
 
 group = "dev.stashy.mongoservices"
 version = "0.4.0"
 
-dependencies {
-    api(projects.model)
-
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.coroutines)
-
-    implementation(libs.mongodb.coroutine)
-    implementation(libs.mongodb.bson.kotlinx)
-
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    implementation(kotlin("reflect"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
-kotlin {
-    jvmToolchain(17)
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
 publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-        }
-    }
-
     repositories {
         maven("https://repo.stashy.dev/releases") {
             credentials {

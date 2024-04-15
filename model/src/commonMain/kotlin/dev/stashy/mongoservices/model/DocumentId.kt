@@ -1,5 +1,7 @@
 package dev.stashy.mongoservices.model
 
+import kotlin.jvm.JvmInline
+
 /**
  * A replacement for MongoDB's `ObjectId` class.
  * This allows you to share the same data model across modules/projects without having a dependency on MongoDB's libraries.
