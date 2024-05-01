@@ -69,7 +69,7 @@ class FilterBuilder<T> {
     infix fun <V> KProperty1<T, V>.all(value: Iterable<V>): Bson = Filters.all(serialName(), value)
     fun <V> KProperty1<T, V>.all(vararg value: V): Bson = Filters.all(serialName(), value)
 
-    infix fun <V> KProperty1<T, V>.matches(filter: Bson): Bson = Filters.elemMatch(serialName(), filter)
+    infix fun <V> KProperty1<T, V>.contains(filter: Bson): Bson = Filters.elemMatch(serialName(), filter)
 
     infix fun <V> KProperty1<T, V>.isSizeOf(size: Int): Bson = Filters.size(serialName(), size)
 
