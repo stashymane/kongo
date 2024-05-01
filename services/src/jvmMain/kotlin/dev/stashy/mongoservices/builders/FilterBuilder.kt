@@ -53,12 +53,12 @@ class FilterBuilder<T> {
 
     fun <V> KProperty1<T, V>.mod(divisor: Long, remainder: Long): Bson = Filters.mod(serialName(), divisor, remainder)
 
-    infix fun <V> KProperty1<T, V>.matches(pattern: String): Bson = Filters.regex(serialName(), pattern)
-    fun <V> KProperty1<T, V>.matches(pattern: String, options: String): Bson =
+    infix fun <V> KProperty1<T, V>.regexMatch(pattern: String): Bson = Filters.regex(serialName(), pattern)
+    fun <V> KProperty1<T, V>.regexMatch(pattern: String, options: String): Bson =
         Filters.regex(serialName(), pattern, options)
 
-    fun <V> KProperty1<T, V>.matches(pattern: Pattern): Bson = Filters.regex(serialName(), pattern)
-    fun <V> KProperty1<T, V>.matches(pattern: Regex): Bson = Filters.regex(serialName(), pattern.toPattern())
+    fun <V> KProperty1<T, V>.regexMatch(pattern: Pattern): Bson = Filters.regex(serialName(), pattern)
+    fun <V> KProperty1<T, V>.regexMatch(pattern: Regex): Bson = Filters.regex(serialName(), pattern.toPattern())
 
     fun text(search: String, options: TextSearchOptions = TextSearchOptions()): Bson = Filters.text(search, options)
 
@@ -69,9 +69,9 @@ class FilterBuilder<T> {
     infix fun <V> KProperty1<T, V>.all(value: Iterable<V>): Bson = Filters.all(serialName(), value)
     fun <V> KProperty1<T, V>.all(vararg value: V): Bson = Filters.all(serialName(), value)
 
-    infix fun <V> KProperty1<T, V>.elemMatch(filter: Bson): Bson = Filters.elemMatch(serialName(), filter)
+    infix fun <V> KProperty1<T, V>.matches(filter: Bson): Bson = Filters.elemMatch(serialName(), filter)
 
-    infix fun <V> KProperty1<T, V>.size(size: Int): Bson = Filters.size(serialName(), size)
+    infix fun <V> KProperty1<T, V>.isSizeOf(size: Int): Bson = Filters.size(serialName(), size)
 
     infix fun <V> KProperty1<T, V>.bitsAllClear(bitmask: Long): Bson = Filters.bitsAllClear(serialName(), bitmask)
     infix fun <V> KProperty1<T, V>.bitsAllSet(bitmask: Long): Bson = Filters.bitsAllSet(serialName(), bitmask)
