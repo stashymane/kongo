@@ -1,10 +1,7 @@
 package dev.stashy.mongoservices
 
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import dev.stashy.mongoservices.builders.FilterBuilder
-import dev.stashy.mongoservices.builders.IndexBuilder
-import dev.stashy.mongoservices.builders.SortBuilder
-import dev.stashy.mongoservices.builders.UpdateBuilder
+import dev.stashy.mongoservices.builders.*
 import org.bson.conversions.Bson
 
 interface MongoServiceBase<T : Any> {
@@ -19,3 +16,5 @@ inline fun <T : Any> MongoServiceBase<T>.index(fn: IndexBuilder<T>.() -> Bson): 
 inline fun <T : Any> MongoServiceBase<T>.update(fn: UpdateBuilder<T>.() -> Bson): Bson = fn(UpdateBuilder())
 
 inline fun <T : Any> MongoServiceBase<T>.filter(fn: FilterBuilder<T>.() -> Bson): Bson = fn(FilterBuilder())
+
+inline fun <T : Any> MongoServiceBase<T>.projection(fn: ProjectionBuilder<T>.() -> Bson): Bson = fn(ProjectionBuilder())
