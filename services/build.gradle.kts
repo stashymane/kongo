@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
-    id("maven-publish")
+    `maven-publish`
+    signing
 }
 
 group = rootProject.group
