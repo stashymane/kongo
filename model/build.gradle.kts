@@ -29,7 +29,10 @@ kotlin {
         browser()
         nodejs()
     }
-    wasmJs()
+    wasmJs {
+        browser()
+        nodejs()
+    }
     wasmWasi()
 
     sourceSets {
