@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
@@ -11,12 +15,22 @@ kotlin {
     jvm {
         jvmToolchain(11)
     }
+
     mingwX64()
+
     linuxX64()
     linuxArm64()
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+
+    js {
+        browser()
+        nodejs()
+    }
+    wasmJs()
+    wasmWasi()
 
     sourceSets {
         commonMain.dependencies {
