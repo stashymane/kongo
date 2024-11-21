@@ -21,6 +21,9 @@ kotlin {
     linuxX64()
     linuxArm64()
 
+    macosX64()
+    macosArm64()
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -29,11 +32,15 @@ kotlin {
         browser()
         nodejs()
     }
+
     wasmJs {
         browser()
         nodejs()
     }
-    wasmWasi()
+
+    wasmWasi {
+        nodejs()
+    }
 
     sourceSets {
         commonMain.dependencies {
