@@ -30,7 +30,7 @@ import kotlin.reflect.jvm.jvmName
 abstract class MongoService<T : Any>(
     val collectionName: String,
     val database: MongoDatabase,
-    val type: KClass<T>
+    type: KClass<T>
 ) : MongoServiceBase<T> {
     /**
      * Creates the collection if it does not yet exist, and performs other database setup based on your implementation.
@@ -41,31 +41,6 @@ abstract class MongoService<T : Any>(
 
     /**
      * The MongoDB collection associated with this service.
-     *
-     * Automatically adds a modified Kotlin serialization codec with contextual or polymorphic serializers defined in [serializersModules].
-     * When overriding the codec registry, either extend the collection's current one
-     * or include [DocumentIdBsonSerializer] as a contextual serializer for your type.
      */
-    override val collection = run {
-        val c = database.getCollection(collectionName, type.java)
-        c.withCodecRegistry(CodecRegistries.fromRegistries(createSerializerCodecs(), c.codecRegistry))
-    }
-
-    /**
-     * Registers serializers transforming with Kotlin serialization for your type [T].
-     * By default, only registers the contextual [DocumentIdBsonSerializer].
-     * Extend this function to add additional contextual/polymorphic serializers.
-     */
-    open fun SerializersModuleBuilder.serializersModules(): Unit = contextual(DocumentIdBsonSerializer)
-
-    fun createSerializerCodecs(): CodecRegistry = CodecRegistries.fromCodecs(
-        KotlinSerializerCodec.create(type, SerializersModule { serializersModules() })
-            ?: throw NullPointerException("Failed to create Kotlin serialization codec for type ${type.jvmName}"),
-        KotlinSerializerCodec.create(
-            DocumentId::class,
-            serializer = DocumentIdBsonSerializer,
-            SerializersModule { contextual(DocumentIdBsonSerializer) },
-            bsonConfiguration = BsonConfiguration()
-        )
-    )
+    override val collection = database.getCollection(collectionName, type.java)
 }
