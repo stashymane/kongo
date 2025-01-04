@@ -12,7 +12,7 @@ import kotlin.jvm.JvmInline
  * ```kotlin
  *  @Serializable
  *  data class YourDocument(
- *      @SerialName("_id") val id: @Contextual DocumentId? = null,
+ *      @SerialName("_id") @Contextual val id: DocumentId? = null,
  *      val foo: String, val bar: String
  *  )
  * ```
