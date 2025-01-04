@@ -1,6 +1,7 @@
 package dev.stashy.mongoservices
 
 import dev.stashy.mongoservices.model.DocumentId
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -16,6 +17,7 @@ object DocumentIdBsonSerializer : KSerializer<DocumentId> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("DocumentIdBsonSerializer", PrimitiveKind.STRING)
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: DocumentId) {
         when (encoder) {
             is BsonEncoder -> encoder.encodeObjectId(ObjectId(value.value))
@@ -23,6 +25,7 @@ object DocumentIdBsonSerializer : KSerializer<DocumentId> {
         }
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun deserialize(decoder: Decoder): DocumentId {
         return when (decoder) {
             is BsonDecoder -> decoder.decodeObjectId().asDocumentId()
