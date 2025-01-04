@@ -5,4 +5,4 @@ plugins {
 }
 
 group = "dev.stashy.mongoservices"
-version = "0.6.0-SNAPSHOT"
+version = "0.6.0"
