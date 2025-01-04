@@ -1,5 +1,6 @@
 package dev.stashy.mongoservices.model
 
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
 /**
@@ -23,4 +24,5 @@ import kotlin.jvm.JvmInline
  * ```
  */
 @JvmInline
+@Serializable(with = DocumentIdSerializer::class)
 value class DocumentId(val value: String)
