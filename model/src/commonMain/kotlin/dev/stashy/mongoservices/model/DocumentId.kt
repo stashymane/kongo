@@ -1,6 +1,5 @@
 package dev.stashy.mongoservices.model
 
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
 /**
@@ -8,7 +7,7 @@ import kotlin.jvm.JvmInline
  * This allows you to share the same data model across modules/projects without having a dependency on MongoDB's libraries.
  *
  * You must register a contextual [DocumentIdSerializer] for this to be serialized.
- * Having a default serializer will prevent this from working in MongoDB.
+ * Having a default serializer will prevent this from working in MongoDB. See [kotlinx.serialization issue #2489](https://github.com/Kotlin/kotlinx.serialization/issues/2489)
  *
  * ```kotlin
  *  @Serializable
@@ -24,5 +23,4 @@ import kotlin.jvm.JvmInline
  * ```
  */
 @JvmInline
-@Serializable(with = DocumentIdSerializer::class)
 value class DocumentId(val value: String)
