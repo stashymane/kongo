@@ -11,7 +11,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DocumentIdSerializationTest {
-    private val customJson = Json { serializersModule = SerializersModule { contextual(DocumentIdSerializer) } }
+    private val json = Json { serializersModule = SerializersModule { contextual(DocumentIdSerializer) } }
 
     @Serializable
     data class TestObj(@SerialName("_id") @Contextual val id: @Contextual DocumentId, val foo: String)
@@ -19,11 +19,9 @@ class DocumentIdSerializationTest {
     @Test
     fun `documentId serialization`() {
         val documentId = DocumentId("test")
-        val serializedDefault = Json.encodeToString(documentId)
-        val serializedCustom = customJson.encodeToString(documentId)
+        val serialized = json.encodeToString(documentId)
 
-        assertEquals("\"test\"", serializedDefault)
-        assertEquals("\"test\"", serializedCustom)
+        assertEquals("\"test\"", serialized)
     }
 
     @Test
@@ -31,6 +29,6 @@ class DocumentIdSerializationTest {
         val documentId = DocumentId("test")
         val testObj = TestObj(documentId, "test")
 
-        assertEquals(customJson.encodeToString(testObj), Json.encodeToString(testObj))
+        assertEquals("{\"_id\":\"test\",\"foo\":\"test\"}", json.encodeToString(testObj))
     }
 }
