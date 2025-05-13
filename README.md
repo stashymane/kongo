@@ -57,24 +57,12 @@ Filters.or(
 
 ### Service class
 
-```kotlin
-data class Foo(
-    @SerialName("_id") @Contextual val id: DocumentId,
-    val bar: String
-)
-
-class FooService : KongoService<Foo> {
-    override val info by meta(name = "test")
-    override val database by inject() // provide instance however you want
-
-    suspend fun getFoo(bar: String): Foo {
-        return collection.find { Foo::bar equals bar }.first()
-    }
-}
-```
+See [KongoService documentation][Service documentation].
 
 [Maven Central badge]: https://img.shields.io/badge/maven--central-soon-lightgray
 
 [Docs badge]: https://img.shields.io/badge/docs-dokka-blue
 
 [Docs URL]: https://stashymane.github.io/kongo/
+
+[Service documentation]: https://stashymane.github.io/kongo/services/dev.stashy.kongo.service/-kongo-service/index.html
