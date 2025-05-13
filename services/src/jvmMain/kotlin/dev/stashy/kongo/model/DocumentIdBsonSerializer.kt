@@ -1,6 +1,5 @@
-package dev.stashy.kongo
+package dev.stashy.kongo.model
 
-import dev.stashy.kongo.model.DocumentId
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
