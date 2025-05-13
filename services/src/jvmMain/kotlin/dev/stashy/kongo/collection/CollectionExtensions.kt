@@ -1,4 +1,4 @@
-package dev.stashy.kongo
+package dev.stashy.kongo.collection
 
 import com.mongodb.client.model.*
 import com.mongodb.client.result.DeleteResult

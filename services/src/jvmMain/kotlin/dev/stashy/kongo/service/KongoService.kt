@@ -4,6 +4,7 @@ import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import dev.stashy.kongo.builders.*
+import dev.stashy.kongo.collection.CollectionProvider
 import org.bson.conversions.Bson
 import kotlin.properties.ReadOnlyProperty
 
@@ -32,11 +33,11 @@ import kotlin.properties.ReadOnlyProperty
  * @property database The database to use in this service.
  * @property collection The collection to use in this service.
  */
-interface KongoService<T : Any> {
+interface KongoService<T : Any> : CollectionProvider<T> {
     val info: Info<T>
     val database: MongoDatabase
 
-    val collection: MongoCollection<T>
+    override val collection: MongoCollection<T>
         get() = database.getCollection(info.name, info.type)
 
     /**
