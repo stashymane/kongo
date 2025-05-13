@@ -1,13 +1,13 @@
-package dev.stashy.mongoservices
+package dev.stashy.kongo
 
 import com.mongodb.client.model.*
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.UpdateResult
 import com.mongodb.kotlin.client.coroutine.FindFlow
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import dev.stashy.mongoservices.builders.FilterBuilder
-import dev.stashy.mongoservices.builders.IndexBuilder
-import dev.stashy.mongoservices.builders.UpdateBuilder
+import dev.stashy.kongo.builders.FilterBuilder
+import dev.stashy.kongo.builders.IndexBuilder
+import dev.stashy.kongo.builders.UpdateBuilder
 import org.bson.conversions.Bson
 
 inline fun <reified T : Any> MongoCollection<T>.find(

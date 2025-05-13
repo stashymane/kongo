@@ -1,9 +1,8 @@
-import dev.stashy.mongoservices.model.DocumentId
-import dev.stashy.mongoservices.model.DocumentIdSerializer
+import dev.stashy.kongo.model.DocumentId
+import dev.stashy.kongo.model.DocumentIdSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual

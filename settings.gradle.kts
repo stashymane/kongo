@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         mavenCentral()
         maven("https://repo.stashy.dev/releases")
@@ -12,5 +13,5 @@ dependencyResolutionManagement {
 }
 
 
-rootProject.name = "mongodb-services"
+rootProject.name = "kongo"
 include(":model", ":services")

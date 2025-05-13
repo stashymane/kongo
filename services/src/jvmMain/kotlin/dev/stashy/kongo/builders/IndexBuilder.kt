@@ -1,4 +1,4 @@
-package dev.stashy.mongoservices.builders
+package dev.stashy.kongo.builders
 
 import com.mongodb.client.model.Indexes
 import org.bson.conversions.Bson

@@ -1,4 +1,4 @@
-package dev.stashy.mongoservices.builders
+package dev.stashy.kongo.builders
 
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.TextSearchOptions

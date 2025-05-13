@@ -1,4 +1,4 @@
-package dev.stashy.mongoservices.builders
+package dev.stashy.kongo.builders
 
 import kotlinx.serialization.SerialName
 import kotlin.reflect.KProperty1

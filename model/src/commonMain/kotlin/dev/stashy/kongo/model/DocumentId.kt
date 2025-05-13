@@ -1,4 +1,4 @@
-package dev.stashy.mongoservices.model
+package dev.stashy.kongo.model
 
 import kotlin.jvm.JvmInline
 

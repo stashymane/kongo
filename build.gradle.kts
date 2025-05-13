@@ -4,5 +4,5 @@ plugins {
     id("maven-publish")
 }
 
-group = "dev.stashy.mongoservices"
-version = "0.6.1"
+group = "dev.stashy.kongo"
+version = "0.7.0-SNAPSHOT"

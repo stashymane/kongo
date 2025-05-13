@@ -1,6 +1,6 @@
-package dev.stashy.mongoservices
+package dev.stashy.kongo
 
-import dev.stashy.mongoservices.model.DocumentId
+import dev.stashy.kongo.model.DocumentId
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

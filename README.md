@@ -1,6 +1,10 @@
-# MongoDB Kotlin driver services
+# kongo
+
+![Maven Central][Maven Central badge]
 
 A collection of utilities to improve the usability of the Kotlin MongoDB driver.
+
+---
 
 ## Usage
 
@@ -12,10 +16,10 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.stashy.mongoservices:mongodb-services:<version>")
+    implementation("dev.stashy.kongo:services:<version>")
 
     //model has no dependency on MongoDB libs and is included in the library above
-    implementation("dev.stashy.mongoservices:model:<version>")
+    implementation("dev.stashy.kongo:model:<version>")
 }
 ```
 
@@ -24,7 +28,7 @@ dependencies {
 * Builder/DSL pattern for many operations (insert, update, index, etc.)
 * Automatic SerialName fetching with operation builder pattern (via Kotlin reflection, not possible to do this otherwise
   currently)
-* Service class for better ergonomics
+* Service interface for better ergonomics
 * ObjectId replacement (`DocumentId`) for sharing your data model across projects without including the MongoDB driver
   itself.
 
@@ -50,20 +54,4 @@ Filters.or(
 // using names from the SerialName annotation.
 ```
 
-### Service class
-
-```kotlin
-class DataService(db: MongoDatabase) : MongoService<Foo>("foo", db, Foo::class) {
-    override suspend fun init() {
-        super.init() // base function creates the collection
-        collection.createIndex { Foo::bar.text() } // creates a text index for the `bar` property
-    }
-
-    fun search(query: String): Foo? = collection.find { text(query) }.singleOrNull()
-}
-```
-
-## TODO
-
-* Aggregate builder
-* Projection builder
+[Maven Central badge]: https://img.shields.io/badge/maven--central-soon-lightgray

@@ -1,7 +1,7 @@
-package dev.stashy.mongoservices
+package dev.stashy.kongo
 
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import dev.stashy.mongoservices.builders.*
+import dev.stashy.kongo.builders.*
 import org.bson.conversions.Bson
 
 interface MongoServiceBase<T : Any> {

@@ -1,4 +1,4 @@
-import dev.stashy.mongoservices.builders.serialName
+import dev.stashy.kongo.builders.serialName
 import kotlinx.serialization.SerialName
 import kotlin.test.Test
 import kotlin.test.assertEquals
