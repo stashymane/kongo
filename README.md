@@ -1,6 +1,7 @@
 # kongo
 
 ![Maven Central][Maven Central badge]
+[![Documentation][Docs badge]][Docs URL]
 
 A collection of utilities to improve the usability of the Kotlin MongoDB driver.
 
@@ -55,3 +56,7 @@ Filters.or(
 ```
 
 [Maven Central badge]: https://img.shields.io/badge/maven--central-soon-lightgray
+
+[Docs badge]: https://img.shields.io/badge/docs-dokka-blue
+
+[Docs URL]: https://stashymane.github.io/kongo/
