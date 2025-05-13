@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
@@ -8,9 +10,15 @@ group = rootProject.group
 version = rootProject.version
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain {
+        version = libs.versions.jvm.toolchain
+    }
 
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(libs.versions.jvm.target.get())
+        }
+    }
 
     mingwX64()
 
