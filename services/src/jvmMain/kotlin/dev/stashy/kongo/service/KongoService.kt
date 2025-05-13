@@ -27,8 +27,8 @@ import kotlin.properties.ReadOnlyProperty
  * }
  * ```
  *
- * @param T The object type that is stored in this collection.
- * @property info Metadata for the service.
+ * @param T The type of object stored in the collection.
+ * @property info Metadata for the service. See [meta].
  * @property database The database to use in this service.
  * @property collection The collection to use in this service.
  */
@@ -41,26 +41,32 @@ interface KongoService<T : Any> {
 
     /**
      * Information describing your Kongo service.
+     * Use the [meta] delegate for less verbosity.
+     *
+     * @property name The name of the collection.
+     * @property type The type of object stored in the collection.
+     * @property options Options to use when creating the collection.
      */
     data class Info<T : Any>(
         val name: String,
         val type: Class<T>,
         val options: CreateCollectionOptions
     )
-
-    fun <T : Any> meta(
-        name: String,
-        type: Class<T>,
-        options: CreateCollectionOptions = CreateCollectionOptions()
-    ): ReadOnlyProperty<Any?, Info<T>> =
-        ReadOnlyProperty { thisRef, property -> Info(name, type, options) }
 }
 
+/**
+ * @param T The type of object stored in the collection.
+ * @param name The name of the collection.
+ * @param options Options to use when creating the collection.
+ *
+ * @return A delegate for the [KongoService.Info] object describing your service.
+ */
 inline fun <reified T : Any> KongoService<T>.meta(
     name: String,
     options: CreateCollectionOptions = CreateCollectionOptions()
-): ReadOnlyProperty<Any?, KongoService.Info<T>> =
-    meta(name, T::class.java, options)
+): ReadOnlyProperty<Any?, KongoService.Info<T>> = ReadOnlyProperty { thisRef, property ->
+    KongoService.Info(name, T::class.java, options)
+}
 
 /**
  * Builder for sorts.
