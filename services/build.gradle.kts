@@ -27,6 +27,8 @@ kotlin {
 
         commonTest.dependencies {
             implementation("org.jetbrains.kotlin:kotlin-test")
+            implementation(libs.testcontainers.core)
+            implementation(libs.testcontainers.mongodb)
         }
     }
 }
