@@ -55,6 +55,24 @@ Filters.or(
 // using names from the SerialName annotation.
 ```
 
+### Service class
+
+```kotlin
+data class Foo(
+    @SerialName("_id") @Contextual val id: DocumentId,
+    val bar: String
+)
+
+class FooService : KongoService<Foo> {
+    override val info by meta(name = "test")
+    override val database by inject() // provide instance however you want
+
+    suspend fun getFoo(bar: String): Foo {
+        return collection.find { Foo::bar equals bar }.first()
+    }
+}
+```
+
 [Maven Central badge]: https://img.shields.io/badge/maven--central-soon-lightgray
 
 [Docs badge]: https://img.shields.io/badge/docs-dokka-blue
