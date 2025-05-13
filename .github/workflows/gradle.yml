@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +30,24 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Generate documentation
+        run: ./gradlew dokkaGenerate
+
+      - name: Upload docs
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'build/dokka/html/'
+
+  deploy:
+    name: Upload documentation
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
