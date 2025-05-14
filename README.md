@@ -38,7 +38,7 @@ dependencies {
 ### Filter builder
 
 ```kotlin
-data class Foo(@SerialName("_id") @Contextual val id: DocumentId, val bar: String)
+data class Foo(@SerialName("_id") val id: DocumentId, val bar: String)
 
 filter {
     (Foo::bar equals "bar") or (Foo::bar equals "baz")
