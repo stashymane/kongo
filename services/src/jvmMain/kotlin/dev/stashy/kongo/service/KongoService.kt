@@ -24,16 +24,22 @@ import kotlin.properties.ReadOnlyProperty
  *     }
  * }
  * ```
- *
- * @param T The type of object stored in the collection.
- * @property info Metadata for the service. See [meta].
- * @property database The database to use in this service.
- * @property collection The collection to use in this service.
  */
 interface KongoService<T : Any> {
+    /**
+     * Metadata for the service. See [meta].
+     */
     val info: Info<T>
+
+    /**
+     * The database used with this service.
+     */
     val database: MongoDatabase
 
+    /**
+     * The MongoDB collection associated with this service.
+     * By default, gets the collection from the [database] property.
+     */
     val collection: MongoCollection<T>
         get() = database.getCollection(info.name, info.type)
 
@@ -50,6 +56,17 @@ interface KongoService<T : Any> {
         val type: Class<T>,
         val options: CreateCollectionOptions
     )
+
+    /**
+     * Runs an [operation] on this [collection].
+     *
+     * Does not guarantee ACID. For that, see [dev.stashy.kongo.transaction].
+     *
+     * @return [Result.Failure] if an exception occurs, otherwise [Result].
+     */
+    suspend fun <R> operation(fn: suspend MongoCollection<T>.() -> R): Result<R> = runCatching {
+        fn.invoke(collection)
+    }
 }
 
 /**
