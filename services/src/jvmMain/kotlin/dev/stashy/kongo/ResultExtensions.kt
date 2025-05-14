@@ -14,7 +14,7 @@ val InsertOneResult.documentId: DocumentId? get() = insertedId?.asObjectId()?.to
 /**
  * @see [InsertManyResult.getInsertedIds]
  */
-val InsertManyResult.documentId: List<DocumentId>
+val InsertManyResult.documentIds: List<DocumentId>
     get() = insertedIds.values.map(BsonValue::asObjectId).map(BsonObjectId::toDocumentId)
 
 /**
