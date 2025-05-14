@@ -1,25 +1,19 @@
 # kongo
 
-![Maven Central][Maven Central badge]
+[![Maven Central][Maven Central badge]][Maven Central project]
 [![Documentation][Docs badge]][Docs URL]
 
 A collection of utilities to improve the usability of the Kotlin MongoDB driver.
 
----
-
 ## Usage
 
-Currently only available via my personal repo, will be published to Maven central on first stable release.
-
 ```kotlin
-repositories {
-    maven("https://repo.stashy.dev/releases")
-}
-
 dependencies {
+    // depends on MongoDB libs
+    // if using in a JVM-only project, use `services-jvm`
     implementation("dev.stashy.kongo:services:<version>")
 
-    //model has no dependency on MongoDB libs and is included in the library above
+    // does not depend on MongoDB libs, is multiplatform
     implementation("dev.stashy.kongo:model:<version>")
 }
 ```
@@ -59,7 +53,9 @@ Filters.or(
 
 See [KongoService documentation][Service documentation].
 
-[Maven Central badge]: https://img.shields.io/badge/maven--central-soon-lightgray
+[Maven Central badge]: https://img.shields.io/maven-central/v/dev.stashy.kongo/services
+
+[Maven Central project]: https://central.sonatype.com/artifact/dev.stashy.kongo/services
 
 [Docs badge]: https://img.shields.io/badge/docs-dokka-blue
 
