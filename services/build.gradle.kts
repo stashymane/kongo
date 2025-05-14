@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.dokka)
-    id("maven-publish")
+    alias(libs.plugins.mavenPublish)
 }
 
 group = rootProject.group
@@ -36,20 +36,6 @@ kotlin {
             implementation("org.jetbrains.kotlin:kotlin-test")
             implementation(libs.testcontainers.core)
             implementation(libs.testcontainers.mongodb)
-        }
-    }
-}
-
-publishing {
-    repositories {
-        maven("https://repo.stashy.dev/releases") {
-            credentials {
-                val repoUser: String? by project
-                val repoToken: String? by project
-
-                username = repoUser ?: ""
-                password = repoToken ?: ""
-            }
         }
     }
 }

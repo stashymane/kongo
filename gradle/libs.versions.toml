@@ -6,6 +6,7 @@ kotlin = "2.1.21"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization-json = "1.8.1"
 dokka = "2.0.0"
+mavenPublish = "0.31.0"
 
 mongodb = "5.5.0"
 testcontainers = "1.21.0"
@@ -24,3 +25,4 @@ testcontainers-mongodb = { module = "org.testcontainers:mongodb", version.ref = 
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }

@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
+    alias(libs.plugins.mavenPublish) apply false
     alias(libs.plugins.dokka)
-    id("maven-publish")
 }
 
 group = "dev.stashy.kongo"
