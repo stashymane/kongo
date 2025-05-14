@@ -86,3 +86,13 @@ publishing {
         }
     }
 }
+
+dokka {
+    dokkaSourceSets.configureEach {
+        sourceLink {
+            localDirectory = rootDir
+            remoteUrl("https://github.com/stashymane/kongo/tree/master")
+            remoteLineSuffix = "#L"
+        }
+    }
+}

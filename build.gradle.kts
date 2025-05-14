@@ -12,3 +12,10 @@ dependencies {
     dokka(projects.model)
     dokka(projects.services)
 }
+
+dokka {
+    pluginsConfiguration.html {
+        footerMessage = "Licensed under Apache 2.0"
+        homepageLink = "https://github.com/stashymane/kongo"
+    }
+}
