@@ -17,5 +17,7 @@ rootProject.name = "kongo"
 
 include(
     ":model",
-    ":services"
+    ":services",
+    ":sample:data",
+    ":sample:services"
 )
