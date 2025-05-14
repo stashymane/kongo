@@ -40,6 +40,10 @@ kotlin {
     }
 }
 
+mavenPublishing.pom {
+    name = "${project.group}:${project.name}"
+}
+
 dokka {
     dokkaSourceSets.configureEach {
         sourceLink {
