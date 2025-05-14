@@ -14,4 +14,8 @@ dependencyResolutionManagement {
 
 
 rootProject.name = "kongo"
-include(":model", ":services")
+
+include(
+    ":model",
+    ":services"
+)

@@ -12,7 +12,7 @@ version = rootProject.version
 
 kotlin {
     jvmToolchain {
-        version = libs.versions.jvm.toolchain
+        languageVersion = JavaLanguageVersion.of(libs.versions.jvm.toolchain.get())
     }
 
     jvm {
@@ -23,8 +23,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.model)
-
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines)
 

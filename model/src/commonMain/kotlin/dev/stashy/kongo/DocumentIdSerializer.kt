@@ -1,4 +1,4 @@
-package dev.stashy.kongo.model
+package dev.stashy.kongo
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -9,7 +9,7 @@ import kotlinx.serialization.encoding.Encoder
 
 /**
  * A simple string serializer for [DocumentId].
- * Needs to be contextual to properly serialize `ObjectId`s in MongoDB's driver.
+ * Used in libraries that do not include MongoDB libraries.
  */
 object DocumentIdSerializer : KSerializer<DocumentId> {
     override val descriptor: SerialDescriptor =

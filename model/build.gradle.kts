@@ -12,7 +12,7 @@ version = rootProject.version
 
 kotlin {
     jvmToolchain {
-        version = libs.versions.jvm.toolchain
+        languageVersion = JavaLanguageVersion.of(libs.versions.jvm.toolchain.get())
     }
 
     jvm {
