@@ -15,50 +15,51 @@ inline fun <reified T : Any> MongoCollection<T>.find(
 ): FindFlow<T> = find(filter(FilterBuilder()))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.findOneAndUpdate(
-    options: FindOneAndUpdateOptions = FindOneAndUpdateOptions(),
+    options: FindOneAndUpdateOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson,
     update: UpdateBuilder<T>.() -> Bson
-): T? = findOneAndUpdate(filter(FilterBuilder()), update(UpdateBuilder()), options)
+): T? = findOneAndUpdate(filter(FilterBuilder()), update(UpdateBuilder()), FindOneAndUpdateOptions().apply(options))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.findOneAndDelete(
-    options: FindOneAndDeleteOptions = FindOneAndDeleteOptions(),
+    options: FindOneAndDeleteOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson
-): T? = findOneAndDelete(filter(FilterBuilder()), options)
+): T? = findOneAndDelete(filter(FilterBuilder()), FindOneAndDeleteOptions().apply(options))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.findOneAndReplace(
     replacement: T,
-    options: FindOneAndReplaceOptions = FindOneAndReplaceOptions(),
+    options: FindOneAndReplaceOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson
-): T? = findOneAndReplace(filter(FilterBuilder()), replacement, options)
+): T? = findOneAndReplace(filter(FilterBuilder()), replacement, FindOneAndReplaceOptions().apply(options))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.updateOne(
-    options: UpdateOptions = UpdateOptions(),
+    options: UpdateOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson,
     update: UpdateBuilder<T>.() -> Bson
-): UpdateResult = updateOne(filter(FilterBuilder()), update(UpdateBuilder()), options)
+): UpdateResult = updateOne(filter(FilterBuilder()), update(UpdateBuilder()), UpdateOptions().apply(options))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.deleteOne(
-    options: DeleteOptions = DeleteOptions(),
+    options: DeleteOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson
-): DeleteResult = deleteOne(filter(FilterBuilder()), options)
+): DeleteResult = deleteOne(filter(FilterBuilder()), DeleteOptions().apply(options))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.replaceOne(
     replacement: T,
-    options: ReplaceOptions = ReplaceOptions(),
+    options: ReplaceOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson
-): UpdateResult = replaceOne(filter(FilterBuilder()), replacement, options)
+): UpdateResult = replaceOne(filter(FilterBuilder()), replacement, ReplaceOptions().apply(options))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.updateMany(
-    options: UpdateOptions = UpdateOptions(),
+    options: UpdateOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson,
     update: UpdateBuilder<T>.() -> Bson
-): UpdateResult = updateMany(filter(FilterBuilder()), update(UpdateBuilder()), options)
+): UpdateResult = updateMany(filter(FilterBuilder()), update(UpdateBuilder()), UpdateOptions().apply(options))
 
 suspend inline fun <reified T : Any> MongoCollection<T>.deleteMany(
-    options: DeleteOptions = DeleteOptions(),
+    options: DeleteOptions.() -> Unit = { },
     filter: FilterBuilder<T>.() -> Bson
-): DeleteResult = deleteMany(filter(FilterBuilder()), options)
+): DeleteResult = deleteMany(filter(FilterBuilder()), DeleteOptions().apply(options))
 
 suspend inline fun <T : Any> MongoCollection<T>.createIndex(
-    options: IndexOptions = IndexOptions(), fn: IndexBuilder<T>.() -> Bson
-): String = createIndex(fn(IndexBuilder()), options)
+    options: IndexOptions.() -> Unit = { },
+    fn: IndexBuilder<T>.() -> Bson
+): String = createIndex(fn(IndexBuilder()), IndexOptions().apply(options))
