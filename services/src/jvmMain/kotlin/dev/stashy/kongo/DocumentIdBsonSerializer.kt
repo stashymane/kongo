@@ -17,7 +17,7 @@ import org.bson.types.ObjectId
  */
 object DocumentIdBsonSerializer : KSerializer<DocumentId> {
     override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("DocumentIdBsonSerializer", PrimitiveKind.STRING)
+        PrimitiveSerialDescriptor("dev.stashy.kongo.DocumentIdBsonSerializer", PrimitiveKind.STRING)
 
     @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: DocumentId) {

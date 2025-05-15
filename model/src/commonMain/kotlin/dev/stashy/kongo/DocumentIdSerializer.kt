@@ -13,7 +13,7 @@ import kotlinx.serialization.encoding.Encoder
  */
 object DocumentIdSerializer : KSerializer<DocumentId> {
     override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("DocumentIdSerializer", PrimitiveKind.STRING)
+        PrimitiveSerialDescriptor("dev.stashy.kongo.DocumentIdSerializer", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: DocumentId) {
         encoder.encodeString(value.value)
