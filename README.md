@@ -3,29 +3,47 @@
 [![Maven Central][Maven Central badge]][Maven Central project]
 [![Documentation][Docs badge]][Docs URL]
 
-A collection of utilities to improve the usability of the Kotlin MongoDB driver.
+Transform the MongoDB Kotlin driver into actual Kotlin.
+
+Still experimental, expect breaking changes until `1.0`.
 
 ## Usage
 
+`build.gradle.kts`
+
 ```kotlin
 dependencies {
-    // depends on MongoDB libs
-    // if using in a JVM-only project, use `services-jvm`
+    // MongoDB utilities, multiplatform but JVM-only
+    // if using in a non-multiplatform project, add the `-jvm` suffix (services-jvm)
     implementation("dev.stashy.kongo:services:<version>")
 
-    // does not depend on MongoDB libs, is multiplatform
+    // DocumentID only - does not depend on MongoDB libs, multiplatform
     implementation("dev.stashy.kongo:model:<version>")
 }
 ```
 
+`libs.versions.toml`
+
+```toml
+[libraries]
+kongo-model = { module = "dev.stashy.kongo:model", version.ref = "kongo" }
+kongo-services = { module = "dev.stashy.kongo:services", version.ref = "kongo" }
+```
+
+You can only include either `model` or `services` in a module.
+Including both will cause a conflict.
+
 ## Features
 
-* Builder/DSL pattern for many operations (insert, update, index, etc.)
-* Automatic SerialName fetching with operation builder pattern (via Kotlin reflection, not possible to do this otherwise
-  currently)
-* Service interface for better ergonomics
-* ObjectId replacement (`DocumentId`) for sharing your data model across projects without including the MongoDB driver
-  itself.
+* Builder/DSL pattern for operations (insert, update, index, etc.)
+* Serialization support
+* Automatic `@SerialName` use in BSON
+* Service interface for better ergonomics and type safety
+* `DocumentId` - an ObjectId replacement that you can use in non-server modules, without the need to import **any**
+  MongoDB libraries.
+
+Most importantly: you can use as much of this library as you need.
+Everything is a wrapper over the actual MongoDB Kotlin driver, allowing you to adopt the library in stages if needed.
 
 ## Examples
 
@@ -49,9 +67,34 @@ Filters.or(
 // using names from the SerialName annotation.
 ```
 
+### Collection extensions
+
+```kotlin
+val collection: MongoCollection<Foo> = TODO()
+
+collection.find { Foo::id equals "bar" }.first()
+
+collection.updateOne(
+    options = { upsert(true) },
+    filter = { Foo::id equals "bar" },
+    update = { Foo::bar set "baz" }
+)
+```
+
 ### Service class
 
-See [KongoService documentation][Service documentation].
+```kotlin
+class FooService : KongoService<Foo> {
+    override val info by meta(name = "test")
+    override val database by inject() // provide the instance however you want
+
+    suspend fun getFoo(bar: String): Result<Foo> = operation {
+        find { Foo::bar equals bar }.first()
+    }
+}
+```
+
+See [KongoService documentation][Service documentation] for more information.
 
 [Maven Central badge]: https://img.shields.io/maven-central/v/dev.stashy.kongo/services
 

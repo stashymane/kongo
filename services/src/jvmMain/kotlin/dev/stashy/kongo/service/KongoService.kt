@@ -11,7 +11,7 @@ import kotlin.properties.ReadOnlyProperty
  * Example:
  * ```kotlin
  * data class Foo(
- *     @SerialName("_id") @Contextual val id: DocumentId,
+ *     @SerialName("_id") val id: DocumentId,
  *     val bar: String
  * )
  *
@@ -19,8 +19,8 @@ import kotlin.properties.ReadOnlyProperty
  *     override val info by meta(name = "test")
  *     override val database by inject() // provide instance however you want
  *
- *     suspend fun getFoo(bar: String): Foo {
- *         return collection.find { Foo::bar equals bar }.first()
+ *     suspend fun getFoo(bar: String): Result<Foo> = operation {
+ *         find { Foo::bar equals bar }.first()
  *     }
  * }
  * ```
@@ -70,6 +70,8 @@ interface KongoService<T : Any> {
 }
 
 /**
+ * Automatically configures [KongoService.Info] for your service.
+ *
  * @param T The type of object stored in the collection.
  * @param name The name of the collection.
  * @param options Options to use when creating the collection.
