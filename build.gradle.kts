@@ -6,10 +6,11 @@ plugins {
 }
 
 group = "dev.stashy.kongo"
-version = "0.7.0"
+version = "0.8.0-SNAPSHOT"
 
 dependencies {
-    dokka(projects.model)
+    dokka(projects.model.core)
+    dokka(projects.model.bson)
     dokka(projects.services)
 }
 

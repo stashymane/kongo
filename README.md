@@ -13,12 +13,17 @@ Still experimental, expect breaking changes until `1.0`.
 
 ```kotlin
 dependencies {
-    // MongoDB utilities, multiplatform but JVM-only
-    // if using in a non-multiplatform project, add the `-jvm` suffix (services-jvm)
-    implementation("dev.stashy.kongo:services:<version>")
+    // to use in a JVM-only project, use `services-jvm`
+    // includes both `model-core` and `model-bson`
+    implementation("dev.stashy.kongo:services:???")
 
-    // DocumentID only - does not depend on MongoDB libs, multiplatform
-    implementation("dev.stashy.kongo:model:<version>")
+    // or, if you only care about the ObjectId replacement...:
+
+    // core data structures, multiplatform
+    implementation("dev.stashy.kongo:model-core:???")
+
+    // BSON serializer for DocumentId - depends on `bson-kotlinx`
+    implementation("dev.stashy.kongo:model-bson:???")
 }
 ```
 
@@ -26,12 +31,10 @@ dependencies {
 
 ```toml
 [libraries]
-kongo-model = { module = "dev.stashy.kongo:model", version.ref = "kongo" }
+kongo-model-core = { module = "dev.stashy.kongo:model-core", version.ref = "kongo" }
+kongo-model-bson = { module = "dev.stashy.kongo:model-bson", version.ref = "kongo" }
 kongo-services = { module = "dev.stashy.kongo:services", version.ref = "kongo" }
 ```
-
-You can only include either `model` or `services` in a module.
-Including both will cause a conflict.
 
 ## Features
 

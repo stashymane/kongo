@@ -1,7 +1,6 @@
 package dev.stashy.kongo
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -11,11 +10,7 @@ import org.bson.codecs.kotlinx.BsonDecoder
 import org.bson.codecs.kotlinx.BsonEncoder
 import org.bson.types.ObjectId
 
-/**
- * A simple string serializer for [DocumentId].
- * Used in projects that contain MongoDB libraries.
- */
-object DocumentIdBsonSerializer : KSerializer<DocumentId> {
+class BsonDocumentIdSerializer : DocumentIdSerializerProvider {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("dev.stashy.kongo.DocumentIdBsonSerializer", PrimitiveKind.STRING)
 
@@ -35,3 +30,4 @@ object DocumentIdBsonSerializer : KSerializer<DocumentId> {
         }
     }
 }
+

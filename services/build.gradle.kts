@@ -23,6 +23,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(projects.model.core)
+            api(projects.model.bson)
+
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines)
 
@@ -34,8 +37,6 @@ kotlin {
 
         commonTest.dependencies {
             implementation("org.jetbrains.kotlin:kotlin-test")
-            implementation(libs.testcontainers.core)
-            implementation(libs.testcontainers.mongodb)
         }
     }
 }

@@ -27,5 +27,10 @@ kotlin {
             implementation(libs.mongodb.coroutine)
             implementation(libs.mongodb.bson.kotlinx)
         }
+
+        commonTest.dependencies {
+            implementation(libs.testcontainers.core)
+            implementation(libs.testcontainers.mongodb)
+        }
     }
 }
