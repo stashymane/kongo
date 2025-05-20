@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "dev.stashy.kongo"
-version = "0.8.0-SNAPSHOT"
+version = "0.8.0"
 
 dependencies {
     dokka(projects.model.core)
