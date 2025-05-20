@@ -38,8 +38,12 @@ kotlin {
     }
 }
 
-mavenPublishing.pom {
-    name = "${project.group}:${project.name}"
+mavenPublishing {
+    coordinates(artifactId = "model-bson")
+
+    pom {
+        name = "${project.group}:${project.name}"
+    }
 }
 
 dokka {

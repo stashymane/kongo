@@ -87,8 +87,12 @@ kotlin {
     }
 }
 
-mavenPublishing.pom {
-    name = "${project.group}:${project.name}"
+mavenPublishing {
+    coordinates(artifactId = "model-core")
+
+    pom {
+        name = "${project.group}:${project.name}"
+    }
 }
 
 dokka {
