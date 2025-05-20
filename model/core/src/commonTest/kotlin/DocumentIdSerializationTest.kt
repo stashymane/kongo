@@ -18,7 +18,7 @@ class DocumentIdSerializationTest {
     }
 
     @Test
-    fun `contextual documentId inside an object`() {
+    fun `documentId inside an object`() {
         val documentId = DocumentId("test")
         val testObj = TestObj(documentId, "test")
 
