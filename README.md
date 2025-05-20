@@ -9,6 +9,10 @@ Still experimental, expect breaking changes until `1.0`.
 
 ## Usage
 
+> All modules are multiplatform.
+>
+> If you wish to use them in a JVM-only project, append `-jvm` to the coordinates.
+
 `build.gradle.kts`
 
 ```kotlin
