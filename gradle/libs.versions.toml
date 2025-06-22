@@ -2,11 +2,11 @@
 jvm-toolchain = "21"
 jvm-target = "11"
 
-kotlin = "2.1.21"
+kotlin = "2.2.0-RC3"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.8.1"
 dokka = "2.0.0"
-mavenPublish = "0.32.0"
+mavenPublish = "0.33.0"
 
 mongodb = "5.5.0"
 testcontainers = "1.21.0"
