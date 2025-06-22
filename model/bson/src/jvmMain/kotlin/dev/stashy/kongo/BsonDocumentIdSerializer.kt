@@ -16,18 +16,26 @@ class BsonDocumentIdSerializer : DocumentIdSerializerProvider {
 
     @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: DocumentId) {
-        when (encoder) {
-            is BsonEncoder -> encoder.encodeObjectId(ObjectId(value.value))
-            else -> encoder.encodeString(value.value)
+        if (value == DocumentId.None) {
+            encoder.encodeNull()
+        } else {
+            encoder.encodeNotNullMark()
+
+            when (encoder) {
+                is BsonEncoder -> encoder.encodeObjectId(ObjectId(value.value))
+                else -> encoder.encodeString(value.value)
+            }
         }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
     override fun deserialize(decoder: Decoder): DocumentId {
-        return when (decoder) {
-            is BsonDecoder -> decoder.decodeObjectId().toDocumentId()
-            else -> DocumentId(decoder.decodeString())
-        }
+        return if (decoder.decodeNotNullMark())
+            when (decoder) {
+                is BsonDecoder -> decoder.decodeObjectId().toDocumentId()
+                else -> DocumentId(decoder.decodeString())
+            }
+        else
+            decoder.decodeNull() ?: DocumentId.None
     }
 }
-

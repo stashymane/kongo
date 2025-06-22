@@ -24,4 +24,14 @@ class DocumentIdSerializationTest {
 
         assertEquals("{\"_id\":\"test\",\"foo\":\"test\"}", Json.encodeToString(testObj))
     }
+
+    @Test
+    fun `documentId none`() {
+        val testObj = TestObj(DocumentId.None, "test")
+        val json = Json.encodeToString(testObj)
+        assertEquals("{\"_id\":null,\"foo\":\"test\"}", json)
+
+        val decoded = Json.decodeFromString<TestObj>(json)
+        assertEquals(DocumentId.None, decoded.id)
+    }
 }

@@ -11,4 +11,12 @@ import kotlin.jvm.JvmInline
  */
 @JvmInline
 @Serializable(with = DocumentIdSerializer::class)
-value class DocumentId(val value: String)
+value class DocumentId(val value: String) {
+    companion object {
+        /**
+         * This special DocumentId is serialized as null, causing a new ID to be generated if used in MongoDB.
+         * It is not a valid ID in the first place, so if anything goes wrong, the operation will simply fail.
+         */
+        val None: DocumentId = DocumentId("none")
+    }
+}
